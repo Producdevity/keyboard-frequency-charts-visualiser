@@ -1,28 +1,79 @@
-## About this Project
+# Keyboard Frequency Visualizer
 
-This is an app to visualise your keyboard input frequency. This could be used to optimise your custom keyboard layout.
+A web application that helps you visualize your keyboard usage patterns and optimize your custom keyboard layout.
 
-I've been keylogging my key inputs for a while now using [this keylogger program](https://github.com/GiacomoLaw/Keylogger) made by [GiacomoLaw](https://github.com/GiacomoLaw).
+## Features
 
-This is very much still a "work in progress" but feel free to play around with it.
-
+- Upload and analyze keystroke log files
+- Visualize key usage frequency with bar and pie charts
+- Interactive keyboard layout visualization with color-coded key usage
+- Get suggestions for optimizing your keyboard layout
+- Support for custom keyboard layouts
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js (v18 or later)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/keyboard-frequency-charts-visualiser.git
+cd keyboard-frequency-charts-visualiser
+```
+
+2. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Run the development server:
 ```bash
 npm run dev
-# or
-pnpm run dev
 # or
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Usage
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+1. Upload your keystroke log file using the file input on the homepage.
+2. View the visualization of your key usage patterns using the different chart types.
+3. Check the layout suggestions to optimize your keyboard layout.
+4. Use the insights to design a custom keyboard layout that better suits your typing patterns.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Data Format
+
+The application expects keystroke log files in the following format:
+```
+timestamp key
+timestamp key
+...
+```
+
+Example:
+```
+1234567890 a
+1234567891 b
+1234567892 c
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Inspired by the need for optimized keyboard layouts
+- Built with Next.js and React
+- Uses Chart.js for data visualization
