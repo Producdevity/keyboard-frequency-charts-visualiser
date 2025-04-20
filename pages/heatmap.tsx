@@ -87,14 +87,14 @@ const HeatmapPage = () => {
             <div
               className="w-4 h-4 rounded-full"
               style={{ backgroundColor: getColorForFrequency(0) }}
-            ></div>
+            />
             <span className="text-sm">Low</span>
           </div>
           <div className="flex items-center gap-2">
             <div
               className="w-4 h-4 rounded-full"
               style={{ backgroundColor: getColorForFrequency(5000) }}
-            ></div>
+            />
             <span className="text-sm">Medium</span>
           </div>
           <div className="flex items-center gap-2">
