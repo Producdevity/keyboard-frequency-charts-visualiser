@@ -6,6 +6,7 @@ export interface KeyPosition {
 
 export interface KeyData {
   key: string
+  label?: string
   position: KeyPosition
   isModifier?: boolean
 }

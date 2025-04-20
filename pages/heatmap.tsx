@@ -5,6 +5,7 @@ import { planckLayout } from '@/data/planckLayout'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Head from 'next/head'
+import KeyboardLayout from '@/components/KeyboardLayout'
 
 const HeatmapPage = () => {
   const [keystrokeData, setKeystrokeData] = useState<KeystrokeData[]>([])
@@ -31,13 +32,6 @@ const HeatmapPage = () => {
 
     fetchData()
   }, [])
-
-  const getKeyFrequency = (key: string): number => {
-    const keyData = keystrokeData.find(
-      (k) => k.key.toLowerCase() === key.toLowerCase(),
-    )
-    return keyData?.frequency || 0
-  }
 
   const getColorForFrequency = (frequency: number): string => {
     // Normalize frequency to a value between 0 and 1
@@ -71,52 +65,43 @@ const HeatmapPage = () => {
     <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
       <Head>
         <title>Keyboard Heatmap</title>
-        <meta name="description" content="Visualize your keyboard usage patterns with a heatmap" />
+        <meta
+          name="description"
+          content="Visualize your keyboard usage patterns with a heatmap"
+        />
       </Head>
 
       <Navbar />
 
       <main className="container-app py-8">
-        <h1 className="text-3xl font-bold mb-6 text-center">Keyboard Heatmap</h1>
-        
+        <h1 className="text-3xl font-bold mb-6 text-center">
+          Keyboard Heatmap
+        </h1>
+
         <div className="max-w-4xl mx-auto">
-          <div className="grid gap-1">
-            {planckLayout.map((row, rowIndex) => (
-              <div key={rowIndex} className="flex gap-1">
-                {row.map((keyData) => {
-                  const frequency = getKeyFrequency(keyData.key)
-                  const color = getColorForFrequency(frequency)
-                  
-                  return (
-                    <div
-                      key={`${rowIndex}-${keyData.key}`}
-                      className="h-14 flex flex-col items-center justify-center rounded shadow-sm transition-colors text-white font-medium"
-                      style={{
-                        backgroundColor: color,
-                        gridColumn: `span ${keyData.position.width || 1}`,
-                      }}
-                    >
-                      <span>{keyData.key}</span>
-                      <span className="text-xs opacity-75"> ({frequency})</span>
-                    </div>
-                  )
-                })}
-              </div>
-            ))}
-          </div>
+          <KeyboardLayout keystrokeData={keystrokeData} layout={planckLayout} />
         </div>
 
         <div className="flex justify-center mt-8 gap-6">
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-full" style={{ backgroundColor: getColorForFrequency(0) }}></div>
+            <div
+              className="w-4 h-4 rounded-full"
+              style={{ backgroundColor: getColorForFrequency(0) }}
+            ></div>
             <span className="text-sm">Low</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-full" style={{ backgroundColor: getColorForFrequency(0.5) }}></div>
+            <div
+              className="w-4 h-4 rounded-full"
+              style={{ backgroundColor: getColorForFrequency(5000) }}
+            ></div>
             <span className="text-sm">Medium</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-full" style={{ backgroundColor: getColorForFrequency(1) }}></div>
+            <div
+              className="w-4 h-4 rounded-full"
+              style={{ backgroundColor: getColorForFrequency(12000) }}
+            />
             <span className="text-sm">High</span>
           </div>
         </div>
