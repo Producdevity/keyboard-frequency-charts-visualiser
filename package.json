@@ -11,12 +11,14 @@
   },
   "dependencies": {
     "chart.js": "^4.4.1",
+    "lodash": "^4.17.21",
     "next": "15.3.1",
     "react": "19.1.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "19.1.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.16",
     "@types/node": "^20.11.19",
     "@types/react": "19.1.2",
     "@types/react-dom": "19.1.2",
