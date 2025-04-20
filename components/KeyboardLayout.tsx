@@ -1,65 +1,69 @@
 import { KeystrokeData } from '@/types'
-import mapToColor from '@/utils/mapToColor'
-import { keyboardLayout } from '@/data/keyboardLayout'
-import styles from '../styles/Charts.module.css'
+import { KeyData } from '@/data/keyboardLayout'
 
 interface KeyboardLayoutProps {
-  data: KeystrokeData[]
+  keystrokeData: KeystrokeData[]
+  layout: KeyData[][]
 }
 
-const KeyboardLayout = (props: KeyboardLayoutProps) => {
+const KeyboardLayout = ({ keystrokeData, layout }: KeyboardLayoutProps) => {
+  const maxFrequency = Math.max(...keystrokeData.map((k) => k.frequency), 1)
+
   const getKeyFrequency = (key: string): number => {
-    const keyData = props.data.find((item) => item.key === key)
-    return keyData ? keyData.frequency : 0
+    const keyData = keystrokeData.find((k) => k.key.toLowerCase() === key.toLowerCase())
+    return keyData?.frequency || 0
   }
 
-  const maxFrequency = Math.max(...props.data.map((item) => item.frequency))
-
-  // Generate legend steps
-  const legendSteps = [0, 0.25, 0.5, 0.75, 1].map((step) => ({
-    value: Math.round(step * maxFrequency),
-    color: mapToColor(step * maxFrequency, maxFrequency),
-  }))
+  const getColorForFrequency = (frequency: number): string => {
+    const normalizedFrequency = frequency / maxFrequency
+    const hue = (1 - normalizedFrequency) * 240 // 240 is blue, 0 is red
+    return `hsl(${hue}, 100%, 50%)`
+  }
 
   return (
-    <div className={styles.keyboardContainer}>
-      <div className={styles.keyboardLayout}>
-        {keyboardLayout.map((row, rowIndex) => (
-          <div key={rowIndex} className={styles.keyboardRow}>
-            {row.map((keyData) => (
-              <div
-                key={`${keyData.key}-${keyData.position.row}-${keyData.position.col}`}
-                className={`${styles.key} ${keyData.isModifier ? styles.modifier : ''}`}
-                style={{
-                  backgroundColor: mapToColor(
-                    getKeyFrequency(keyData.key),
-                    maxFrequency,
-                  ),
-                  gridColumn: keyData.position.width
-                    ? `span ${keyData.position.width}`
-                    : 'span 1',
-                }}
-                data-key={keyData.key}
-              >
-                {keyData.key}
-              </div>
-            ))}
+    <div className="mt-8 w-full">
+      <div className="flex flex-col gap-1">
+        {layout.map((row, rowIndex) => (
+          <div key={rowIndex} className="flex gap-1">
+            {row.map((keyData) => {
+              const frequency = getKeyFrequency(keyData.key)
+              const color = getColorForFrequency(frequency)
+
+              return (
+                <div
+                  key={`${rowIndex}-${keyData.key}`}
+                  className={`
+                    flex flex-col items-center justify-center
+                    rounded-md text-white font-bold relative
+                    h-16 shadow-md transition-colors
+                    ${keyData.isModifier ? 'text-xs' : 'text-base'}
+                  `}
+                  style={{
+                    backgroundColor: color,
+                    gridColumn: keyData.position.width ? `span ${keyData.position.width}` : 'span 1',
+                    width: keyData.position.width ? `${keyData.position.width * 4}rem` : '4rem',
+                  }}
+                >
+                  <span>{keyData.key}</span>
+                  <span className="text-xs opacity-80">{frequency}</span>
+                </div>
+              )
+            })}
           </div>
         ))}
       </div>
-
-      <div className={styles.legend}>
-        <div className={styles.legendTitle}>Key Usage Frequency</div>
-        <div className={styles.legendSteps}>
-          {legendSteps.map((step, index) => (
-            <div key={index} className={styles.legendStep}>
-              <div
-                className={styles.legendColor}
-                style={{ backgroundColor: step.color }}
-              />
-              <div className={styles.legendValue}>{step.value}</div>
-            </div>
-          ))}
+      <div className="mt-6 flex items-center justify-center space-x-4">
+        <div className="flex items-center space-x-2">
+          <div className="w-4 h-4 rounded-full" style={{ backgroundColor: 'hsl(240, 100%, 50%)' }}></div>
+          <span className="text-sm dark:text-gray-300">Low Frequency</span>
+        </div>
+        <div className="flex items-center space-x-2">
+          <div className="w-4 h-4 rounded-full" style={{ backgroundColor: 'hsl(120, 100%, 50%)' }}></div>
+          <span className="text-sm dark:text-gray-300">Medium Frequency</span>
+        </div>
+        <div className="flex items-center space-x-2">
+          <div className="w-4 h-4 rounded-full" style={{ backgroundColor: 'hsl(0, 100%, 50%)' }}></div>
+          <span className="text-sm dark:text-gray-300">High Frequency</span>
         </div>
       </div>
     </div>

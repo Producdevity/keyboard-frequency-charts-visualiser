@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
 import { KeystrokeData } from '@/types'
 import { processKeystrokeFile } from '@/utils/processKeystrokeFile'
 import { planckLayout } from '@/data/planckLayout'
-import styles from '../styles/Charts.module.css'
+import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
+import Head from 'next/head'
 
 const HeatmapPage = () => {
   const [keystrokeData, setKeystrokeData] = useState<KeystrokeData[]>([])
@@ -49,77 +50,79 @@ const HeatmapPage = () => {
   }
 
   if (isLoading) {
-    return <div className={styles.loading}>Loading heatmap data...</div>
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-white dark:bg-gray-900">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    )
   }
 
   if (error) {
-    return <div className={styles.error}>Error: {error}</div>
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-white dark:bg-gray-900">
+        <div className="p-4 bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-100 rounded-lg">
+          Error: {error}
+        </div>
+      </div>
+    )
   }
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Keyboard Heatmap</h1>
-      <div className="max-w-96">
-        {planckLayout.map((row, rowIndex) => (
-          <div key={rowIndex} className={styles.keyboardRow}>
-            {row.map((keyData) => {
-              const frequency = getKeyFrequency(keyData.key)
-              const color = getColorForFrequency(frequency)
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+      <Head>
+        <title>Keyboard Heatmap</title>
+        <meta name="description" content="Visualize your keyboard usage patterns with a heatmap" />
+      </Head>
 
-              return (
-                <div
-                  key={`${rowIndex}-${keyData.key}`}
-                  className={styles.key}
-                  style={{
-                    backgroundColor: color,
-                    width: '100%',
+      <Navbar />
 
-                    // width: keyData.position?.width
-                    //   ? `${keyData.position.width * (U + GAP)}px`
-                    //   : `${U}px`,
-                    height: '60px',
-                    margin: '2px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderRadius: '4px',
-                    color: 'white',
-                    fontWeight: 'bold',
-                    position: 'relative',
-                    gridColumn: `span ${keyData.position.width || 1}`,
-                  }}
-                >
-                  <span>{keyData.key}</span>
-                  <span className={styles.frequency}> ({frequency})</span>
-                </div>
-              )
-            })}
+      <main className="container-app py-8">
+        <h1 className="text-3xl font-bold mb-6 text-center">Keyboard Heatmap</h1>
+        
+        <div className="max-w-4xl mx-auto">
+          <div className="grid gap-1">
+            {planckLayout.map((row, rowIndex) => (
+              <div key={rowIndex} className="flex gap-1">
+                {row.map((keyData) => {
+                  const frequency = getKeyFrequency(keyData.key)
+                  const color = getColorForFrequency(frequency)
+                  
+                  return (
+                    <div
+                      key={`${rowIndex}-${keyData.key}`}
+                      className="h-14 flex flex-col items-center justify-center rounded shadow-sm transition-colors text-white font-medium"
+                      style={{
+                        backgroundColor: color,
+                        gridColumn: `span ${keyData.position.width || 1}`,
+                      }}
+                    >
+                      <span>{keyData.key}</span>
+                      <span className="text-xs opacity-75"> ({frequency})</span>
+                    </div>
+                  )
+                })}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <div className={styles.legend}>
-        <div className={styles.legendItem}>
-          <div
-            className={styles.legendColor}
-            style={{ backgroundColor: getColorForFrequency(0) }}
-          />
-          <span>Low Frequency</span>
         </div>
-        <div className={styles.legendItem}>
-          <div
-            className={styles.legendColor}
-            style={{ backgroundColor: getColorForFrequency(0.5) }}
-          />
-          <span>Medium Frequency</span>
+
+        <div className="flex justify-center mt-8 gap-6">
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-full" style={{ backgroundColor: getColorForFrequency(0) }}></div>
+            <span className="text-sm">Low</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-full" style={{ backgroundColor: getColorForFrequency(0.5) }}></div>
+            <span className="text-sm">Medium</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-full" style={{ backgroundColor: getColorForFrequency(1) }}></div>
+            <span className="text-sm">High</span>
+          </div>
         </div>
-        <div className={styles.legendItem}>
-          <div
-            className={styles.legendColor}
-            style={{ backgroundColor: getColorForFrequency(1) }}
-          />
-          <span>High Frequency</span>
-        </div>
-      </div>
+      </main>
+
+      <Footer />
     </div>
   )
 }

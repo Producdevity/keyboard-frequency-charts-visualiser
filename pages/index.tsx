@@ -5,9 +5,10 @@ import { useState, type ChangeEvent } from 'react'
 import BarChart from '@/components/BarChart'
 import PieChart from '@/components/PieChart'
 import KeyboardLayout from '@/components/KeyboardLayout'
-import LayoutSuggestions from '../components/LayoutSuggestions'
+import LayoutSuggestions from '@/components/LayoutSuggestions'
 import { KeystrokeData } from '@/types'
 import { processKeystrokeFile } from '@/utils/processKeystrokeFile'
+import { planckLayout } from '@/data/planckLayout'
 
 const Home: NextPage = () => {
   const [activeTab, setActiveTab] = useState<'bar' | 'pie' | 'keyboard'>('bar')
@@ -99,7 +100,7 @@ const Home: NextPage = () => {
               {activeTab === 'bar' && <BarChart data={keystrokeData} />}
               {activeTab === 'pie' && <PieChart data={keystrokeData} />}
               {activeTab === 'keyboard' && (
-                <KeyboardLayout data={keystrokeData} />
+                <KeyboardLayout keystrokeData={keystrokeData} layout={planckLayout} />
               )}
             </div>
 
