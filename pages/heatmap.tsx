@@ -9,7 +9,6 @@ const HeatmapPage = () => {
   const [keystrokeData, setKeystrokeData] = useState<KeystrokeData[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const router = useRouter()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,9 +56,6 @@ const HeatmapPage = () => {
     return <div className={styles.error}>Error: {error}</div>
   }
 
-  // keyboard U size
-  const U = 60
-  const GAP = 8
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Keyboard Heatmap</h1>
