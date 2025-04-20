@@ -141,7 +141,7 @@
 
 .keyboardRow {
   display: grid;
-  grid-template-columns: repeat(14, 1fr);
+  grid-template-columns: repeat(12, 1fr);
   gap: 0.5rem;
   width: 100%;
 }
@@ -204,15 +204,16 @@
 }
 
 .legend {
-  display: flex;
+  margin-top:     1rem;
+  display:        flex;
   flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  width: 100%;
-  max-width: 800px;
-  padding: 1rem;
-  background: #f5f5f5;
-  border-radius: 8px;
+  align-items:    center;
+  gap:            0.5rem;
+  width:          100%;
+  max-width:      800px;
+  padding:        1rem;
+  background:     #666161;
+  border-radius:  8px;
 }
 
 .legendTitle {

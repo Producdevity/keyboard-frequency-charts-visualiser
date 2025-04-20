@@ -7,6 +7,10 @@ import createFrequencyCountMap from '../utils/createFrequencyCountMap'
 import mapToColor from '../utils/mapToColor'
 import splitKeystrokes from '../utils/splitKeystrokes'
 
+interface Props {
+  keystrokes: string
+}
+
 function BarChart(props: Props) {
   const [chartData, setChartData] = useState<ChartData<'bar'> | null>(null)
 
@@ -40,10 +44,6 @@ function BarChart(props: Props) {
   }, [props.keystrokes])
 
   return chartData ? <Bar data={chartData} /> : null
-}
-
-interface Props {
-  keystrokes: string
 }
 
 export default BarChart
