@@ -1,49 +1,100 @@
 import React, { useEffect, useState } from 'react'
 import { Bar } from 'react-chartjs-2'
-import { ChartData } from 'chart.js'
-import { allKeys } from '../data/keys'
-import { DataElement, FrequencyCountMap } from '../types'
-import createFrequencyCountMap from '../utils/createFrequencyCountMap'
-import mapToColor from '../utils/mapToColor'
-import splitKeystrokes from '../utils/splitKeystrokes'
+import { KeystrokeData } from '@/types'
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js'
 
-function BarChart(props: Props) {
-  const [chartData, setChartData] = useState<ChartData<'bar'> | null>(null)
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
-  useEffect(() => {
-    if (!props.keystrokes) return
-
-    // splitKeystrokes and save to array
-    const keystrokesArray: string[] = splitKeystrokes(props.keystrokes)
-
-    const keystrokesFrequency: FrequencyCountMap =
-      createFrequencyCountMap(keystrokesArray)
-
-    const barChartData: DataElement[] = Object.entries(keystrokesFrequency).map(
-      ([key, count]) => ({
-        label: key,
-        value: count,
-      }),
-    )
-
-    const _chartData: ChartData<'bar'> = {
-      labels: allKeys,
-      datasets: [
-        {
-          label: 'Keystrokes',
-          data: barChartData.map((item) => item.value),
-          backgroundColor: allKeys.map(mapToColor),
-        },
-      ],
-    }
-    setChartData(_chartData)
-  }, [props.keystrokes])
-
-  return chartData ? <Bar data={chartData} /> : null
+interface BarChartProps {
+  data: KeystrokeData[]
 }
 
-interface Props {
-  keystrokes: string
+const BarChart = ({ data }: BarChartProps) => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    // Check initial theme
+    setIsDarkMode(document.documentElement.classList.contains('dark'));
+
+    // Set up observer for theme changes
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class') {
+          setIsDarkMode(document.documentElement.classList.contains('dark'));
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, { attributes: true });
+    
+    return () => observer.disconnect();
+  }, []);
+
+  // Sort data by frequency in descending order and take top 20 keys
+  const sortedData = [...data]
+    .sort((a, b) => b.frequency - a.frequency)
+    .slice(0, 20);
+
+  const chartData = {
+    labels: sortedData.map((item) => item.key),
+    datasets: [
+      {
+        label: 'Key Frequency',
+        data: sortedData.map((item) => item.frequency),
+        backgroundColor: sortedData.map((_, index) => {
+          // Generate a gradient from blue to red
+          const hue = 240 - (index / sortedData.length) * 240;
+          return `hsl(${hue}, 80%, 60%)`
+        }),
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1,
+      },
+    ],
+  }
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+        labels: {
+          color: isDarkMode ? 'rgba(255, 255, 255, 0.9)' : undefined
+        }
+      },
+      title: {
+        display: true,
+        text: 'Key Usage Frequency',
+        color: isDarkMode ? 'rgba(255, 255, 255, 0.9)' : undefined
+      },
+      tooltip: {
+        backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.8)' : undefined,
+      }
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: isDarkMode ? 'rgba(255, 255, 255, 0.7)' : undefined
+        },
+        grid: {
+          color: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : undefined
+        }
+      },
+      y: {
+        ticks: {
+          color: isDarkMode ? 'rgba(255, 255, 255, 0.7)' : undefined
+        },
+        grid: {
+          color: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : undefined
+        }
+      }
+    }
+  }
+
+  return (
+    <div className="w-full max-w-4xl mx-auto p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+      <Bar data={chartData} options={options} />
+    </div>
+  )
 }
 
 export default BarChart
