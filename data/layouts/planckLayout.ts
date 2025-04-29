@@ -1,6 +1,6 @@
-import { KeyData } from './keyboardLayout'
+import { KeyData } from '../keyboardLayout'
 
-export const planckLayout: KeyData[][] = [
+const planckLayout: KeyData[][] = [
   // First row
   [
     { key: 'Esc', label: 'Esc', position: { row: 0, col: 0 } },
@@ -49,15 +49,37 @@ export const planckLayout: KeyData[][] = [
   // Fourth row
   [
     { key: 'Fn', label: 'Fn', position: { row: 3, col: 0 }, isModifier: true },
-    { key: 'ctrl', label: 'Ctrl', position: { row: 3, col: 1 }, isModifier: true },
-    { key: 'alt', label: 'Alt', position: { row: 3, col: 2 }, isModifier: true },
-    { key: 'cmd', label: 'Cmd', position: { row: 3, col: 3 }, isModifier: true },
+    {
+      key: 'ctrl',
+      label: 'Ctrl',
+      position: { row: 3, col: 1 },
+      isModifier: true,
+    },
+    {
+      key: 'alt',
+      label: 'Alt',
+      position: { row: 3, col: 2 },
+      isModifier: true,
+    },
+    {
+      key: 'cmd',
+      label: 'Cmd',
+      position: { row: 3, col: 3 },
+      isModifier: true,
+    },
     { key: 'L1', label: 'L1', position: { row: 3, col: 4 }, isModifier: true },
     { key: 'space', label: 'Space', position: { row: 3, col: 5, width: 2 } },
     { key: 'L2', label: 'L2', position: { row: 3, col: 7 }, isModifier: true },
     { key: 'left', label: '🠈', position: { row: 3, col: 8 }, isModifier: true },
     { key: 'down', label: '🠋', position: { row: 3, col: 9 }, isModifier: true },
     { key: 'up', label: '🠉', position: { row: 3, col: 10 }, isModifier: true },
-    { key: 'right', label: '🠊', position: { row: 3, col: 11 }, isModifier: true },
+    {
+      key: 'right',
+      label: '🠊',
+      position: { row: 3, col: 11 },
+      isModifier: true,
+    },
   ],
 ]
+
+export default planckLayout

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { KeystrokeData } from '@/types'
 import { processKeystrokeFile } from '@/utils/processKeystrokeFile'
-import { planckLayout } from '@/data/planckLayout'
+import planckLayout from '@/data/layouts/planckLayout'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Head from 'next/head'
