@@ -20,23 +20,22 @@ A web application that helps you visualize your keyboard usage patterns and opti
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/yourusername/keyboard-frequency-charts-visualiser.git
 cd keyboard-frequency-charts-visualiser
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
-# or
-yarn install
 ```
 
 3. Run the development server:
+
 ```bash
 npm run dev
-# or
-yarn dev
 ```
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser.
@@ -51,14 +50,16 @@ yarn dev
 ## Data Format
 
 The application expects keystroke log files in the following format:
-```
+
+```text
 timestamp key
 timestamp key
 ...
 ```
 
 Example:
-```
+
+```text
 1234567890 a
 1234567891 b
 1234567892 c
