@@ -7,7 +7,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer
+  ResponsiveContainer,
 } from 'recharts'
 import { KeystrokeData } from '@/types'
 import generateGradient from '@/utils/generateGradient'
@@ -41,7 +41,7 @@ const BarChart = (props: BarChartProps) => {
     .map((item, index) => ({
       key: item.key,
       frequency: item.frequency,
-      fill: generateGradient(index, props.data)
+      fill: generateGradient(index, props.data),
     }))
 
   return (
@@ -51,26 +51,31 @@ const BarChart = (props: BarChartProps) => {
       </h3>
       <ResponsiveContainer width="100%" height={400}>
         <RechartsBarChart data={sortedData}>
-          <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#444' : '#ccc'} />
-          <XAxis 
-            dataKey="key" 
-            stroke={isDarkMode ? '#fff' : '#666'}
-            tick={{ fill: isDarkMode ? '#fff' : '#666' }}
+          <CartesianGrid
+            strokeDasharray="3 3"
+            stroke={isDarkMode ? '#444' : '#ccc'}
           />
-          <YAxis 
-            stroke={isDarkMode ? '#fff' : '#666'}
-            tick={{ fill: isDarkMode ? '#fff' : '#666' }}
+          <XAxis
+            dataKey="key"
+            stroke={isDarkMode ? '#e5e7eb' : '#666'}
+            tick={{ fill: isDarkMode ? '#e5e7eb' : '#666' }}
+          />
+          <YAxis
+            stroke={isDarkMode ? '#e5e7eb' : '#666'}
+            tick={{ fill: isDarkMode ? '#e5e7eb' : '#666' }}
           />
           <Tooltip
+            labelFormatter={(label) => `Key: ${label}`}
+            itemStyle={{ color: isDarkMode ? '#e5e7eb': '#666' }}
             contentStyle={{
-              backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.8)' : 'white',
+              backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.8)' : '#f9fafb',
+              color: isDarkMode ? '#e5e7eb' : '#666',
               border: 'none',
               borderRadius: '4px',
-              color: isDarkMode ? '#fff' : '#666'
             }}
           />
           <Legend />
-          <Bar dataKey="frequency" name="Key Frequency" />
+          <Bar dataKey="frequency" name="Frequency" />
         </RechartsBarChart>
       </ResponsiveContainer>
     </div>
