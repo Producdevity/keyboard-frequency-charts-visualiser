@@ -57,11 +57,7 @@ function Keycap(props: KeycapProps) {
   )
 }
 
-interface KeyboardBaseProps {
-  layout: KeyboardLayout
-}
-
-function KeyboardBase(props: KeyboardBaseProps) {
+function KeyboardBase() {
   const totalWidth = 16
   const totalHeight = 6
 
@@ -107,7 +103,7 @@ function Keyboard(props: KeyboardProps) {
 
   return (
     <group>
-      <KeyboardBase layout={props.layout} />
+      <KeyboardBase />
       {props.layout.map((row, rowIndex) => {
         let currentX = -rowWidths[rowIndex] / 2 // Start from the left edge of the row
         return row.map((keyData, colIndex) => {
