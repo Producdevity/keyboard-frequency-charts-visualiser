@@ -1,0 +1,29 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+---
+description: Disallow props destructuring in React components
+globs: ["**/*.tsx", "**/*.jsx"]
+alwaysApply: true
+---
+
+- Never destructure props in function parameters of React components.
+- Always access props via the `props` object (e.g., `props.foo` instead of `{ foo }`).
+- This applies to both functional and arrow components.
+- Helps with readability, consistency, and better in-editor AI suggestions.
+
+❌ Bad:
+```tsx
+const MyComponent = ({ title }: { title: string }) => {
+  return <h1>{title}</h1>
+}
+```
+
+✅ Good:
+```tsx
+const MyComponent = (props: { title: string }) => {
+  return <h1>{props.title}</h1>
+}
+```
