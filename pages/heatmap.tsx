@@ -5,7 +5,7 @@ import planckLayout from '@/data/layouts/planckLayout'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Head from 'next/head'
-import KeyboardLayout from '@/components/KeyboardLayoutVisualizer'
+import KeyboardLayoutVisualizer from '@/components/KeyboardLayoutVisualizer'
 
 const HeatmapPage = () => {
   const [keystrokeData, setKeystrokeData] = useState<KeystrokeData[]>([])
@@ -79,7 +79,10 @@ const HeatmapPage = () => {
         </h1>
 
         <div className="mx-auto">
-          <KeyboardLayout keystrokeData={keystrokeData} layout={planckLayout} />
+          <KeyboardLayoutVisualizer
+            keystrokeData={keystrokeData}
+            layout={planckLayout}
+          />
         </div>
 
         <div className="flex justify-center mt-8 gap-6">

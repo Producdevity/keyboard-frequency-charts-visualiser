@@ -3,11 +3,10 @@ import Head from 'next/head'
 import { useState, type ChangeEvent } from 'react'
 import BarChart from '@/components/BarChart'
 import PieChart from '@/components/PieChart'
-import KeyboardLayout from '@/components/KeyboardLayoutVisualizer'
+import KeyboardLayoutVisualizer from '@/components/KeyboardLayoutVisualizer'
 import LayoutSuggestions from '@/components/LayoutSuggestions'
 import { KeystrokeData } from '@/types'
 import { processKeystrokeFile } from '@/utils/processKeystrokeFile'
-import planckLayout from '@/data/layouts/planckLayout'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 // import { BarChart } from '@/components/charts/BarChart'
@@ -15,7 +14,6 @@ import Footer from '@/components/Footer'
 import { useKeyFrequencyData } from '@/hooks/useKeyFrequencyData'
 import LayoutSelector from '@/components/LayoutSelector'
 import { layouts, LayoutConfig } from '@/data/layouts'
-
 
 const Home: NextPage = () => {
   const [activeTab, setActiveTab] = useState<'bar' | 'pie' | 'keyboard'>('bar')
@@ -166,13 +164,9 @@ const Home: NextPage = () => {
                       onLayoutChange={setCurrentLayout}
                     />
                   </div>
-                  {/* <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-semibold mb-4">Keyboard Layout</h2>
-            <KeyboardVisualizer layout={currentLayout.layout} data={data} />
-          </div> */}
-                  <KeyboardLayout
+                  <KeyboardLayoutVisualizer
                     keystrokeData={keystrokeData}
-                    layout={planckLayout}
+                    layout={currentLayout.layout}
                   />
                 </>
               )}

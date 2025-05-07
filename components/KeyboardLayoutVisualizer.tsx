@@ -92,4 +92,4 @@ const KeyboardLayoutVisualizer = ({
   )
 }
 
-export default KeyboardLayout
+export default KeyboardLayoutVisualizer
