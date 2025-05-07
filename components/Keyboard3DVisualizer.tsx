@@ -13,7 +13,7 @@ const KEY_WIDTH = 1
 const KEY_HEIGHT = 1
 const KEY_DEPTH = 0.1
 const KEY_SPACING = 0.1
-const BASE_HEIGHT = 0.05
+const BASE_HEIGHT = 0.5
 
 interface KeycapProps {
   position: [number, number, number]
@@ -24,7 +24,6 @@ interface KeycapProps {
 }
 
 function Keycap(props: KeycapProps) {
-  const meshRef = useRef<THREE.Mesh>(null)
   const height = Math.max(
     KEY_DEPTH,
     (props.frequency / props.maxFrequency) * 0.5,
@@ -33,32 +32,58 @@ function Keycap(props: KeycapProps) {
     ? props.width * KEY_WIDTH + (props.width - 1) * KEY_SPACING
     : KEY_WIDTH
 
+  // Keycap dimensions
+  const stemWidth = actualWidth - 0.1
+  const stemHeight = height
+  const keycapWidth = stemWidth - 0.05
+  const keycapHeight = KEY_HEIGHT - 0.05
+  const keycapDepth = 0.06 // Thinner keycap
+  const keycapTilt = 0.02 // Subtle tilt
+
   return (
     <group position={props.position}>
       {/* Keycap stem */}
-      <mesh position={[0, 0, height / 2]}>
-        <boxGeometry args={[actualWidth - 0.1, KEY_HEIGHT - 0.1, height]} />
+      <mesh position={[0, 0, stemHeight / 2]}>
+        <boxGeometry args={[stemWidth, KEY_HEIGHT - 0.1, stemHeight]} />
         <meshStandardMaterial
           color={new THREE.Color(0.2, 0.2, 0.2)}
           metalness={0.1}
           roughness={0.7}
         />
       </mesh>
+
       {/* Keycap top */}
-      <mesh position={[0, 0, height + 0.01]}>
-        <boxGeometry args={[actualWidth - 0.05, KEY_HEIGHT - 0.05, 0.02]} />
-        <meshStandardMaterial
-          color={new THREE.Color(0.9, 0.9, 0.9)}
-          metalness={0.2}
-          roughness={0.5}
-        />
-      </mesh>
+      <group position={[0, 0, stemHeight]}>
+        {/* Main keycap body with curved top */}
+        <mesh position={[0, -keycapTilt, keycapDepth / 2]} rotation={[0.1, 0, 0]}>
+          <boxGeometry args={[keycapWidth, keycapHeight, keycapDepth]} />
+          <meshStandardMaterial
+            color={new THREE.Color(0.9, 0.9, 0.9)}
+            metalness={0.2}
+            roughness={0.5}
+          />
+        </mesh>
+
+        {/* Keycap label */}
+        <mesh 
+          position={[0, -keycapTilt, keycapDepth + 0.001]} 
+          rotation={[0.1, 0, 0]}
+        >
+          <planeGeometry args={[keycapWidth - 0.1, keycapHeight - 0.1]} />
+          <meshBasicMaterial 
+            color="black" 
+            depthWrite={false}
+            transparent={true}
+            opacity={0.9}
+          />
+        </mesh>
+      </group>
     </group>
   )
 }
 
 function KeyboardBase() {
-  const totalWidth = 16
+  const totalWidth = 14
   const totalHeight = 6
 
   return (
@@ -110,8 +135,7 @@ function Keyboard(props: KeyboardProps) {
           const frequency = getKeyFrequency(keyData.key)
           const keyWidth = keyData.position?.width || 1
           const x = currentX + (keyWidth * KEY_WIDTH) / 2 // Center the key at its position
-          const y =
-            (rowIndex - props.layout.length / 2) * (KEY_HEIGHT + KEY_SPACING)
+          const y = -(rowIndex - props.layout.length / 2) * (KEY_HEIGHT + KEY_SPACING) // Invert the Y position
 
           // Update currentX for the next key
           currentX += keyWidth * KEY_WIDTH + (keyWidth - 1) * KEY_SPACING
