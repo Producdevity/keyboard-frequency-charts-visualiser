@@ -69,6 +69,7 @@ const KeyboardLayoutVisualizer = ({
 
   const GAP_WIDTH = 0.25
   const KEY_WIDTH = 4
+
   return (
     <div className="mt-8 w-full">
       <div className="flex flex-col gap-1 items-center">

@@ -10,12 +10,16 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@react-three/drei": "^10.0.7",
+    "@react-three/fiber": "^9.1.2",
     "@types/recharts": "^1.8.29",
+    "@types/three": "^0.176.0",
     "lodash": "^4.17.21",
     "next": "15.3.1",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "recharts": "^2.15.3"
+    "recharts": "^2.15.3",
+    "three": "^0.176.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.17.16",
