@@ -1,6 +1,14 @@
 # Keyboard Frequency Visualizer
 
-A web application that helps you visualize your keyboard usage patterns and optimize your custom keyboard layout.
+A web application that helps you visualize your keyboard usage patterns and
+optimize your custom keyboard layout.
+
+## Demo
+
+[Keyboard_frequency_visualizer Demo](https://keyboard-frequency-charts-visualiser.vercel.app)
+
+There is an example keystroke log file included in the repository.
+You can upload it to see how the visualizations work.
 
 ![Keyboard_frequency_visualizer](https://github.com/user-attachments/assets/b40faf51-d6ed-4019-a693-0da2f23f6618)
 
@@ -67,3 +75,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Inspired by the need for optimized keyboard layouts
 - Built with Next.js and React
 - Uses Recharts for data visualization
+- Uses Three.js for 3D keyboard layout visualization
