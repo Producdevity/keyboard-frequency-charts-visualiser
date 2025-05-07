@@ -49,21 +49,7 @@ npm run dev
 
 ## Data Format
 
-The application expects keystroke log files in the following format:
-
-```text
-timestamp key
-timestamp key
-...
-```
-
-Example:
-
-```text
-1234567890 a
-1234567891 b
-1234567892 c
-```
+See `data/keystroke.log`
 
 ## Contributing
 
@@ -77,4 +63,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - Inspired by the need for optimized keyboard layouts
 - Built with Next.js and React
-- Uses Chart.js for data visualization
+- Uses Recharts for data visualization

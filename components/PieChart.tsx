@@ -1,82 +1,93 @@
 import React, { useEffect, useState } from 'react'
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
-import { Pie } from 'react-chartjs-2'
+import {
+  PieChart as RechartsPieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+  ResponsiveContainer
+} from 'recharts'
 import { KeystrokeData } from '@/types'
-
-ChartJS.register(ArcElement, Tooltip, Legend)
 
 interface PieChartProps {
   data: KeystrokeData[]
 }
 
+interface PieLabelProps {
+  name: string
+  percent: number
+}
+
 const PieChart = (props: PieChartProps) => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false)
 
   useEffect(() => {
-    // Check initial theme
-    setIsDarkMode(document.documentElement.classList.contains('dark'));
+    setIsDarkMode(document.documentElement.classList.contains('dark'))
 
-    // Set up observer for theme changes
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.attributeName === 'class') {
-          setIsDarkMode(document.documentElement.classList.contains('dark'));
+          setIsDarkMode(document.documentElement.classList.contains('dark'))
         }
-      });
-    });
+      })
+    })
 
-    observer.observe(document.documentElement, { attributes: true });
-    
-    return () => observer.disconnect();
-  }, []);
+    observer.observe(document.documentElement, { attributes: true })
 
-  // Sort data by frequency in descending order and take top 15 keys
+    return () => observer.disconnect()
+  }, [])
+
   const sortedData = [...props.data]
     .sort((a, b) => b.frequency - a.frequency)
-    .slice(0, 15);
+    .slice(0, 15)
+    .map((item, index) => ({
+      name: item.key,
+      value: item.frequency,
+      fill: `hsl(${(index * 360) / 15}, 70%, 60%)`
+    }))
 
-  const chartData = {
-    labels: sortedData.map((item) => item.key),
-    datasets: [
-      {
-        data: sortedData.map((item) => item.frequency),
-        backgroundColor: sortedData.map((_, index) => {
-          const hue = (index * 360) / sortedData.length;
-          return `hsl(${hue}, 70%, 60%)`
-        }),
-        borderWidth: 1,
-        borderColor: isDarkMode ? 'rgba(30, 30, 30, 1)' : 'rgba(255, 255, 255, 1)',
-      },
-    ],
-  }
-
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'right' as const,
-        labels: {
-          color: isDarkMode ? 'rgba(255, 255, 255, 0.9)' : undefined,
-          padding: 20,
-          font: {
-            size: 12
-          }
-        }
-      },
-      title: {
-        display: true,
-        text: 'Key Usage Distribution',
-        color: isDarkMode ? 'rgba(255, 255, 255, 0.9)' : undefined
-      },
-      tooltip: {
-        backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.8)' : undefined
-      }
-    }
+  const renderCustomizedLabel = ({ name, percent }: PieLabelProps) => {
+    return `${name} (${(percent * 100).toFixed(0)}%)`
   }
 
   return (
     <div className="w-full max-w-4xl mx-auto p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
-      <Pie data={chartData} options={options} />
+      <h3 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
+        Key Usage Distribution
+      </h3>
+      <ResponsiveContainer width="100%" height={400}>
+        <RechartsPieChart>
+          <Pie
+            data={sortedData}
+            dataKey="value"
+            nameKey="name"
+            cx="50%"
+            cy="50%"
+            outerRadius={150}
+            label={renderCustomizedLabel}
+          >
+            {sortedData.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={entry.fill} />
+            ))}
+          </Pie>
+          <Tooltip
+            contentStyle={{
+              backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.8)' : 'white',
+              border: 'none',
+              borderRadius: '4px',
+              color: isDarkMode ? '#fff' : '#666'
+            }}
+          />
+          <Legend
+            layout="vertical"
+            verticalAlign="middle"
+            align="right"
+            wrapperStyle={{
+              color: isDarkMode ? '#fff' : '#666'
+            }}
+          />
+        </RechartsPieChart>
+      </ResponsiveContainer>
     </div>
   )
 }

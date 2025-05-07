@@ -78,7 +78,7 @@ const HeatmapPage = () => {
           Keyboard Heatmap
         </h1>
 
-        <div className="max-w-4xl mx-auto">
+        <div className="mx-auto">
           <KeyboardLayout keystrokeData={keystrokeData} layout={planckLayout} />
         </div>
 

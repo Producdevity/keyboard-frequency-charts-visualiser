@@ -8,7 +8,7 @@ const Footer = () => {
           © {new Date().getFullYear()} Keyboard Frequency Visualizer. All rights reserved.
         </p>
         <p className="text-xs mt-2 text-gray-500 dark:text-gray-500">
-          Producdevity - Built with Next.js, Tailwind CSS, and Chart.js
+          Producdevity - Built with Next.js, Tailwind CSS, and Recharts
         </p>
       </div>
     </footer>

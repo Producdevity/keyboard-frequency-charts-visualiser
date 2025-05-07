@@ -25,7 +25,7 @@ const LayoutSuggestions = (props: LayoutSuggestionsProps) => {
   const homeRowPercentage = totalUsage ? ((homeRowUsage / totalUsage) * 100).toFixed(2) : 0;
 
   return (
-    <div className="mt-12 w-full max-w-4xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+    <div className="mt-12 w-full max-w-6xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Layout Suggestions</h2>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

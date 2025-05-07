@@ -1,4 +1,4 @@
-import { KeystrokeData } from '../types'
+import { KeystrokeData } from '@/types'
 import findFrequency from './findFrequency'
 import splitKeystrokes from './splitKeystrokes'
 import { uniqBy } from 'lodash'

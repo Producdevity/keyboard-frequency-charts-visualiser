@@ -1,4 +1,4 @@
-import { KeystrokeData, FrequencyCountMap } from '../types'
+import { KeystrokeData, FrequencyCountMap } from '@/types'
 
 export const processKeystrokeFile = (fileContent: string): KeystrokeData[] => {
   try {
