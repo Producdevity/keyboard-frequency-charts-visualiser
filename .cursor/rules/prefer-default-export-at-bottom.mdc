@@ -1,0 +1,38 @@
+---
+description: 
+globs: *.tsx,*.ts
+alwaysApply: false
+---
+---
+description: Always use `export default` at the bottom of the file
+globs: ["**/*.ts", "**/*.tsx"]
+alwaysApply: true
+---
+
+- Always prefer `export default` when a file exports a single function, component, or constant.
+- Do not use inline `export default`; define the value first, then export it at the bottom.
+- Named exports are fine when exporting multiple items.
+
+❌ Bad:
+```tsx
+export default function () { ... }
+
+export default {
+  rows: []
+} as Layout
+```
+
+✅ Good:
+```tsx
+function getData() { ... }
+
+export default getData
+```
+
+✅ Good:
+```tsx
+const layout = {
+  rows: []
+}
+export default layout
+```

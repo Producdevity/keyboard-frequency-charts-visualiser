@@ -1,0 +1,37 @@
+---
+description: 
+globs: *.tsx,*.ts
+alwaysApply: false
+---
+---
+description: Match default export name to filename
+globs: ["**/*.ts", "**/*.tsx"]
+alwaysApply: true
+---
+
+- When a file contains a single default export, the exported variable or function should match the file name (in PascalCase or camelCase as appropriate).
+- Promotes clarity and consistency across the codebase.
+- ❗ **Exception**: Files that are part of Next.js's file-based routing system (e.g. `page.tsx`, `layout.tsx`, `loading.tsx`, `error.tsx`) are excluded from this rule.
+
+❌ Bad
+```tsx
+// file: layout.ts
+const planckLayout = { ... }
+export default planckLayout
+```
+
+✅ Good:
+```tsx
+// file: planckLayout.ts
+const planckLayout = { ... }
+export default planckLayout
+```
+
+✅ Good:
+```tsx
+// file: layouts/index.ts
+export {
+  planckLayout,
+  preonicLayout
+} 
+```

@@ -1,0 +1,49 @@
+---
+description: 
+globs: *.tsx,*.ts
+alwaysApply: false
+---
+---
+description: Prefer function declarations over arrow functions
+globs: ["**/*.ts", "**/*.tsx"]
+alwaysApply: true
+---
+
+- Use `function` declarations instead of arrow functions at the top level.
+- Inside React components (or other callbacks), arrow functions are allowed.
+- This improves readability, stack traces, and hoisting behavior.
+
+❌ Bad:
+```tsx
+const fetchData = () => {
+  // ...
+}
+
+function MyComponent() {
+  useEffect(function() {
+    // ...
+  })
+
+  function formatName() {
+    // ...
+  }
+}
+```
+
+✅ Good:
+```tsx
+function fetchData() {
+  // ...
+}
+
+function MyComponent() {
+  useEffect(() => {
+    // ...
+  })
+
+  const formatName = () => {
+    // ...
+  }
+}
+
+```
