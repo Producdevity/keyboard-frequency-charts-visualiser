@@ -7,7 +7,7 @@ import KeyboardLayout from '@/components/KeyboardLayout'
 import LayoutSuggestions from '@/components/LayoutSuggestions'
 import { KeystrokeData } from '@/types'
 import { processKeystrokeFile } from '@/utils/processKeystrokeFile'
-import { planckLayout } from '@/data/planckLayout'
+import planckLayout from '@/data/layouts/planckLayout'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
