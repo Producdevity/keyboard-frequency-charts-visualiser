@@ -32,9 +32,6 @@ yarn-error.log*
 # local env files
 .env*.local
 
-#data/keystroke.log
-#data/keystrokes_short.log
-
 # vercel
 .vercel
 
