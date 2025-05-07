@@ -1,38 +1,44 @@
-import { useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, PerspectiveCamera, Environment } from '@react-three/drei'
+import {
+  OrbitControls,
+  PerspectiveCamera,
+  Environment,
+} from '@react-three/drei'
 import { KeystrokeData } from '@/types'
 import { KeyboardLayout } from '@/data/layouts/types'
 import * as THREE from 'three'
 
-interface Keyboard3DProps {
-  keystrokeData: KeystrokeData[]
-  layout: KeyboardLayout
-}
-
-// Constants for keyboard dimensions
 const KEY_WIDTH = 1
 const KEY_HEIGHT = 1
 const KEY_DEPTH = 0.1
 const KEY_SPACING = 0.1
 const BASE_HEIGHT = 0.05
 
-// Component for a single keycap
-function Keycap(props: { 
+interface KeycapProps {
   position: [number, number, number]
   frequency: number
   maxFrequency: number
   label: string
-}) {
+  width?: number
+}
+
+function Keycap(props: KeycapProps) {
   const meshRef = useRef<THREE.Mesh>(null)
-  const height = Math.max(KEY_DEPTH, (props.frequency / props.maxFrequency) * 0.5)
+  const height = Math.max(
+    KEY_DEPTH,
+    (props.frequency / props.maxFrequency) * 0.5,
+  )
+  const actualWidth = props.width
+    ? props.width * KEY_WIDTH + (props.width - 1) * KEY_SPACING
+    : KEY_WIDTH
 
   return (
     <group position={props.position}>
       {/* Keycap stem */}
       <mesh position={[0, 0, height / 2]}>
-        <boxGeometry args={[KEY_WIDTH - 0.1, KEY_HEIGHT - 0.1, height]} />
-        <meshStandardMaterial 
+        <boxGeometry args={[actualWidth - 0.1, KEY_HEIGHT - 0.1, height]} />
+        <meshStandardMaterial
           color={new THREE.Color(0.2, 0.2, 0.2)}
           metalness={0.1}
           roughness={0.7}
@@ -40,8 +46,8 @@ function Keycap(props: {
       </mesh>
       {/* Keycap top */}
       <mesh position={[0, 0, height + 0.01]}>
-        <boxGeometry args={[KEY_WIDTH - 0.05, KEY_HEIGHT - 0.05, 0.02]} />
-        <meshStandardMaterial 
+        <boxGeometry args={[actualWidth - 0.05, KEY_HEIGHT - 0.05, 0.02]} />
+        <meshStandardMaterial
           color={new THREE.Color(0.9, 0.9, 0.9)}
           metalness={0.2}
           roughness={0.5}
@@ -51,12 +57,18 @@ function Keycap(props: {
   )
 }
 
-// Component for the keyboard base
-function KeyboardBase() {
+interface KeyboardBaseProps {
+  layout: KeyboardLayout
+}
+
+function KeyboardBase(props: KeyboardBaseProps) {
+  const totalWidth = 16
+  const totalHeight = 6
+
   return (
     <mesh position={[0, 0, -BASE_HEIGHT / 2]}>
-      <boxGeometry args={[20, 6, BASE_HEIGHT]} />
-      <meshStandardMaterial 
+      <boxGeometry args={[totalWidth, totalHeight, BASE_HEIGHT]} />
+      <meshStandardMaterial
         color={new THREE.Color(0.1, 0.1, 0.1)}
         metalness={0.3}
         roughness={0.4}
@@ -65,9 +77,16 @@ function KeyboardBase() {
   )
 }
 
-// Main keyboard component
-function Keyboard(props: Keyboard3DProps) {
-  const maxFrequency = Math.max(...props.keystrokeData.map((k) => k.frequency), 1)
+interface KeyboardProps {
+  keystrokeData: KeystrokeData[]
+  layout: KeyboardLayout
+}
+
+function Keyboard(props: KeyboardProps) {
+  const maxFrequency = Math.max(
+    ...props.keystrokeData.map((k) => k.frequency),
+    1,
+  )
 
   const getKeyFrequency = (key: string): number => {
     const keyData = props.keystrokeData.find(
@@ -76,15 +95,31 @@ function Keyboard(props: Keyboard3DProps) {
     return keyData?.frequency || 0
   }
 
+  // Calculate the total width of each row to center it properly
+  const rowWidths = useMemo(() => {
+    return props.layout.map((row) => {
+      return row.reduce((width, key) => {
+        const keyWidth = key.position?.width || 1
+        return width + keyWidth * KEY_WIDTH + (keyWidth - 1) * KEY_SPACING
+      }, 0)
+    })
+  }, [props.layout])
+
   return (
     <group>
-      <KeyboardBase />
-      {props.layout.map((row, rowIndex) => (
-        row.map((keyData, colIndex) => {
+      <KeyboardBase layout={props.layout} />
+      {props.layout.map((row, rowIndex) => {
+        let currentX = -rowWidths[rowIndex] / 2 // Start from the left edge of the row
+        return row.map((keyData, colIndex) => {
           const frequency = getKeyFrequency(keyData.key)
-          const x = (colIndex - row.length / 2) * (KEY_WIDTH + KEY_SPACING)
-          const y = (rowIndex - props.layout.length / 2) * (KEY_HEIGHT + KEY_SPACING)
-          
+          const keyWidth = keyData.position?.width || 1
+          const x = currentX + (keyWidth * KEY_WIDTH) / 2 // Center the key at its position
+          const y =
+            (rowIndex - props.layout.length / 2) * (KEY_HEIGHT + KEY_SPACING)
+
+          // Update currentX for the next key
+          currentX += keyWidth * KEY_WIDTH + (keyWidth - 1) * KEY_SPACING
+
           return (
             <Keycap
               key={`${rowIndex}-${colIndex}`}
@@ -92,16 +127,21 @@ function Keyboard(props: Keyboard3DProps) {
               frequency={frequency}
               maxFrequency={maxFrequency}
               label={keyData.label || keyData.key}
+              width={keyData.position?.width}
             />
           )
         })
-      ))}
+      })}
     </group>
   )
 }
 
-// Scene setup component
-function Scene(props: Keyboard3DProps) {
+interface SceneProps {
+  keystrokeData: KeystrokeData[]
+  layout: KeyboardLayout
+}
+
+function Scene(props: SceneProps) {
   return (
     <>
       <PerspectiveCamera makeDefault position={[0, 0, 15]} />
@@ -110,7 +150,7 @@ function Scene(props: Keyboard3DProps) {
       <directionalLight position={[-10, -10, -5]} intensity={0.5} />
       <Environment preset="studio" />
       <Keyboard {...props} />
-      <OrbitControls 
+      <OrbitControls
         enablePan={false}
         minDistance={10}
         maxDistance={30}
@@ -122,8 +162,7 @@ function Scene(props: Keyboard3DProps) {
   )
 }
 
-// Main component
-export default function Keyboard3DVisualizer(props: Keyboard3DProps) {
+export default function Keyboard3DVisualizer(props: SceneProps) {
   return (
     <div className="w-full h-[600px] mt-8 rounded-lg overflow-hidden shadow-lg">
       <Canvas shadows camera={{ position: [0, 0, 15], fov: 50 }}>
@@ -131,4 +170,4 @@ export default function Keyboard3DVisualizer(props: Keyboard3DProps) {
       </Canvas>
     </div>
   )
-} 
+}
