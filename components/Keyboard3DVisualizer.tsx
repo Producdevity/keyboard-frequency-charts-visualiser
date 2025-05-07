@@ -37,8 +37,48 @@ function Keycap(props: KeycapProps) {
   const stemHeight = height
   const keycapWidth = stemWidth - 0.05
   const keycapHeight = KEY_HEIGHT - 0.05
-  const keycapDepth = 0.06 // Thinner keycap
-  const keycapTilt = 0.02 // Subtle tilt
+  const keycapDepth = 0.06
+  const keycapTilt = 0.02
+
+  // Paraboloid dish parameters
+  const dishDepth = 0.025 // How deep the dish is
+  const segments = 24 // Smoothness
+
+  // Create a paraboloid dish for the keycap top
+  const dishGeometry = useMemo(() => {
+    const geometry = new THREE.BufferGeometry()
+    const vertices = []
+    const indices = []
+
+    // Generate vertices
+    for (let i = 0; i <= segments; i++) {
+      for (let j = 0; j <= segments; j++) {
+        const x = (i / segments - 0.5) * keycapWidth
+        const y = (j / segments - 0.5) * keycapHeight
+        // Paraboloid: z = -a(x^2 + y^2)
+        const a = dishDepth / (0.25 * keycapWidth * keycapWidth + 0.25 * keycapHeight * keycapHeight)
+        const z = -a * (x * x + y * y)
+        vertices.push(x, y, z)
+      }
+    }
+
+    // Generate indices
+    for (let i = 0; i < segments; i++) {
+      for (let j = 0; j < segments; j++) {
+        const a = i * (segments + 1) + j
+        const b = a + 1
+        const c = a + (segments + 1)
+        const d = c + 1
+        indices.push(a, b, c)
+        indices.push(b, d, c)
+      }
+    }
+
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3))
+    geometry.setIndex(indices)
+    geometry.computeVertexNormals()
+    return geometry
+  }, [keycapWidth, keycapHeight, dishDepth, segments])
 
   return (
     <group position={props.position}>
@@ -54,7 +94,7 @@ function Keycap(props: KeycapProps) {
 
       {/* Keycap top */}
       <group position={[0, 0, stemHeight]}>
-        {/* Main keycap body with curved top */}
+        {/* Main keycap body */}
         <mesh position={[0, -keycapTilt, keycapDepth / 2]} rotation={[0.1, 0, 0]}>
           <boxGeometry args={[keycapWidth, keycapHeight, keycapDepth]} />
           <meshStandardMaterial
@@ -64,9 +104,19 @@ function Keycap(props: KeycapProps) {
           />
         </mesh>
 
+        {/* Paraboloid dish top */}
+        <mesh position={[0, -keycapTilt, keycapDepth + dishDepth / 2]} rotation={[0.1, 0, 0]}>
+          <primitive object={dishGeometry} />
+          <meshStandardMaterial
+            color={new THREE.Color(0.92, 0.92, 0.92)}
+            metalness={0.18}
+            roughness={0.45}
+          />
+        </mesh>
+
         {/* Keycap label */}
         <mesh 
-          position={[0, -keycapTilt, keycapDepth + 0.001]} 
+          position={[0, -keycapTilt, keycapDepth + dishDepth + 0.001]} 
           rotation={[0.1, 0, 0]}
         >
           <planeGeometry args={[keycapWidth - 0.1, keycapHeight - 0.1]} />
@@ -84,7 +134,7 @@ function Keycap(props: KeycapProps) {
 
 function KeyboardBase() {
   const totalWidth = 14
-  const totalHeight = 6
+  const totalHeight = 8
 
   return (
     <mesh position={[0, 0, -BASE_HEIGHT / 2]}>
@@ -175,8 +225,6 @@ function Scene(props: SceneProps) {
         minDistance={10}
         maxDistance={30}
         rotateSpeed={0.5}
-        autoRotate
-        autoRotateSpeed={0.5}
       />
     </>
   )
