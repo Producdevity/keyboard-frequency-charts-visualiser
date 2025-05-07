@@ -51,7 +51,7 @@ const PieChart = (props: PieChartProps) => {
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+    <div className="w-full max-w-6xl mx-auto p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
       <h3 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
         Key Usage Distribution
       </h3>

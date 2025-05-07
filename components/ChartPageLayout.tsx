@@ -46,7 +46,7 @@ const ChartPageLayout = (props: ChartPageLayoutProps) => {
         <h1 className="text-3xl font-bold mb-8 text-center text-gray-800 dark:text-white">
           {props.title}
         </h1>
-        <div className="w-full max-w-4xl mx-auto">
+        <div className="w-full max-w-6xl mx-auto">
           {props.children}
         </div>
       </main>
