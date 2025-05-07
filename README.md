@@ -2,6 +2,8 @@
 
 A web application that helps you visualize your keyboard usage patterns and optimize your custom keyboard layout.
 
+![Keyboard_frequency_visualizer](https://github.com/user-attachments/assets/b40faf51-d6ed-4019-a693-0da2f23f6618)
+
 ## Features
 
 - Upload and analyze keystroke log files
