@@ -44,41 +44,126 @@ function Keycap(props: KeycapProps) {
   const dishDepth = 0.025 // How deep the dish is
   const segments = 24 // Smoothness
 
-  // Create a paraboloid dish for the keycap top
-  const dishGeometry = useMemo(() => {
+  // Create a single mesh for the keycap top and sides (rectangular dish)
+  const keycapGeometry = useMemo(() => {
     const geometry = new THREE.BufferGeometry()
     const vertices = []
     const indices = []
+    const grid = []
 
-    // Generate vertices
+    // Paraboloid: z = -dishDepth * (1 - (x/a)^2 - (y/b)^2)
+    // At center (x=0, y=0): z = -dishDepth
+    // At edge (x=+-a, y=+-b): z = 0
+    const a = keycapWidth / 2
+    const b = keycapHeight / 2
+
+    // Top surface (rectangular paraboloid)
     for (let i = 0; i <= segments; i++) {
+      const row = []
+      const y = ((i / segments) - 0.5) * keycapHeight
       for (let j = 0; j <= segments; j++) {
-        const x = (i / segments - 0.5) * keycapWidth
-        const y = (j / segments - 0.5) * keycapHeight
-        // Paraboloid: z = -a(x^2 + y^2)
-        const a = dishDepth / (0.25 * keycapWidth * keycapWidth + 0.25 * keycapHeight * keycapHeight)
-        const z = -a * (x * x + y * y)
+        const x = ((j / segments) - 0.5) * keycapWidth
+        const z = -dishDepth * (1 - (x * x) / (a * a) - (y * y) / (b * b))
         vertices.push(x, y, z)
+        row.push(vertices.length / 3 - 1)
       }
+      grid.push(row)
     }
 
-    // Generate indices
+    // Indices for top surface
     for (let i = 0; i < segments; i++) {
       for (let j = 0; j < segments; j++) {
-        const a = i * (segments + 1) + j
-        const b = a + 1
-        const c = a + (segments + 1)
-        const d = c + 1
+        const a = grid[i][j]
+        const b = grid[i][j + 1]
+        const c = grid[i + 1][j]
+        const d = grid[i + 1][j + 1]
         indices.push(a, b, c)
         indices.push(b, d, c)
       }
+    }
+
+    // Sides (vertical faces)
+    // Bottom Z for sides
+    const baseZ = -keycapDepth
+    // Four edges: left, right, top, bottom
+    for (let i = 0; i < segments; i++) {
+      // Left edge
+      let topA = grid[i][0]
+      let topB = grid[i + 1][0]
+      let botA = vertices.length / 3
+      let botB = botA + 1
+      vertices.push(
+        -a,
+        ((i / segments) - 0.5) * keycapHeight,
+        baseZ,
+      )
+      vertices.push(
+        -a,
+        (((i + 1) / segments) - 0.5) * keycapHeight,
+        baseZ,
+      )
+      indices.push(topA, botA, topB)
+      indices.push(botA, botB, topB)
+      // Right edge
+      topA = grid[i][segments]
+      topB = grid[i + 1][segments]
+      botA = vertices.length / 3
+      botB = botA + 1
+      vertices.push(
+        a,
+        ((i / segments) - 0.5) * keycapHeight,
+        baseZ,
+      )
+      vertices.push(
+        a,
+        (((i + 1) / segments) - 0.5) * keycapHeight,
+        baseZ,
+      )
+      indices.push(topA, topB, botA)
+      indices.push(botA, topB, botB)
+    }
+    for (let j = 0; j < segments; j++) {
+      // Top edge
+      let topA = grid[0][j]
+      let topB = grid[0][j + 1]
+      let botA = vertices.length / 3
+      let botB = botA + 1
+      vertices.push(
+        ((j / segments) - 0.5) * keycapWidth,
+        -b,
+        baseZ,
+      )
+      vertices.push(
+        (((j + 1) / segments) - 0.5) * keycapWidth,
+        -b,
+        baseZ,
+      )
+      indices.push(topA, botA, topB)
+      indices.push(botA, botB, topB)
+      // Bottom edge
+      topA = grid[segments][j]
+      topB = grid[segments][j + 1]
+      botA = vertices.length / 3
+      botB = botA + 1
+      vertices.push(
+        ((j / segments) - 0.5) * keycapWidth,
+        b,
+        baseZ,
+      )
+      vertices.push(
+        (((j + 1) / segments) - 0.5) * keycapWidth,
+        b,
+        baseZ,
+      )
+      indices.push(topA, topB, botA)
+      indices.push(botA, topB, botB)
     }
 
     geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3))
     geometry.setIndex(indices)
     geometry.computeVertexNormals()
     return geometry
-  }, [keycapWidth, keycapHeight, dishDepth, segments])
+  }, [keycapWidth, keycapHeight, dishDepth, segments, keycapDepth])
 
   return (
     <group position={props.position}>
@@ -92,28 +177,16 @@ function Keycap(props: KeycapProps) {
         />
       </mesh>
 
-      {/* Keycap top */}
+      {/* Keycap top and sides: single mesh */}
       <group position={[0, 0, stemHeight]}>
-        {/* Main keycap body */}
-        <mesh position={[0, -keycapTilt, keycapDepth / 2]} rotation={[0.1, 0, 0]}>
-          <boxGeometry args={[keycapWidth, keycapHeight, keycapDepth]} />
-          <meshStandardMaterial
-            color={new THREE.Color(0.9, 0.9, 0.9)}
-            metalness={0.2}
-            roughness={0.5}
-          />
-        </mesh>
-
-        {/* Paraboloid dish top */}
-        <mesh position={[0, -keycapTilt, keycapDepth + dishDepth / 2]} rotation={[0.1, 0, 0]}>
-          <primitive object={dishGeometry} />
+        <mesh position={[0, -keycapTilt, keycapDepth]} rotation={[0.1, 0, 0]}>
+          <primitive object={keycapGeometry} />
           <meshStandardMaterial
             color={new THREE.Color(0.92, 0.92, 0.92)}
             metalness={0.18}
             roughness={0.45}
           />
         </mesh>
-
         {/* Keycap label */}
         <mesh 
           position={[0, -keycapTilt, keycapDepth + dishDepth + 0.001]} 
