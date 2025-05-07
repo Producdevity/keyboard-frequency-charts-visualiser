@@ -1,11 +1,12 @@
 import planckLayout from './planckLayout'
 import preonicLayout from './preonicLayout'
+import { KeyboardLayout } from './types'
 
 export interface LayoutConfig {
   id: string
   name: string
   description: string
-  layout: typeof planckLayout
+  layout: KeyboardLayout
 }
 
 export const layouts: LayoutConfig[] = [
@@ -22,5 +23,3 @@ export const layouts: LayoutConfig[] = [
     layout: preonicLayout,
   },
 ]
-
-export const defaultLayout = layouts[0] 

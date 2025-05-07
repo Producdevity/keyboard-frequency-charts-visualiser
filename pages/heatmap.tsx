@@ -5,7 +5,7 @@ import planckLayout from '@/data/layouts/planckLayout'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Head from 'next/head'
-import KeyboardLayout from '@/components/KeyboardLayout'
+import KeyboardLayout from '@/components/KeyboardLayoutVisualizer'
 
 const HeatmapPage = () => {
   const [keystrokeData, setKeystrokeData] = useState<KeystrokeData[]>([])

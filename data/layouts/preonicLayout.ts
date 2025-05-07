@@ -1,20 +1,20 @@
-import { KeyData } from '../keyboardLayout'
+import { KeyboardLayout } from './types'
 
-const preonicLayout: KeyData[][] = [
+const preonicLayout: KeyboardLayout = [
   // First row
   [
     { key: 'Esc', label: 'Esc', position: { row: 1, col: 0 } },
-    { key: '1', label: '1', position: { row: 1, col: 1 }},
-    { key: '2', label: '2', position: { row: 1, col: 2 }},
-    { key: '3', label: '3', position: { row: 1, col: 3 }},
-    { key: '4', label: '4', position: { row: 1, col: 4 }},
-    { key: '5', label: '5', position: { row: 1, col: 5 }},
-    { key: '6', label: '6', position: { row: 1, col: 6 }},
-    { key: '7', label: '7', position: { row: 1, col: 7 }},
-    { key: '8', label: '8', position: { row: 1, col: 8 }},
-    { key: '9', label: '9', position: { row: 1, col: 9 }},
-    { key: '0', label: '0', position: { row: 1, col: 10 }},
-    { key: 'delete', label: 'Del', position: { row: 1, col: 11 }},
+    { key: '1', label: '1', position: { row: 1, col: 1 } },
+    { key: '2', label: '2', position: { row: 1, col: 2 } },
+    { key: '3', label: '3', position: { row: 1, col: 3 } },
+    { key: '4', label: '4', position: { row: 1, col: 4 } },
+    { key: '5', label: '5', position: { row: 1, col: 5 } },
+    { key: '6', label: '6', position: { row: 1, col: 6 } },
+    { key: '7', label: '7', position: { row: 1, col: 7 } },
+    { key: '8', label: '8', position: { row: 1, col: 8 } },
+    { key: '9', label: '9', position: { row: 1, col: 9 } },
+    { key: '0', label: '0', position: { row: 1, col: 10 } },
+    { key: 'delete', label: 'Del', position: { row: 1, col: 11 } },
   ],
   // Second row
   [
@@ -97,4 +97,3 @@ const preonicLayout: KeyData[][] = [
   ],
 ]
 export default preonicLayout
-

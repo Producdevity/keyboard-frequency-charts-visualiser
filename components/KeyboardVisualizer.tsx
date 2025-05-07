@@ -1,8 +1,8 @@
-import { KeyData } from '@/data/keyboardLayout'
+import { KeyboardLayout } from '@/data/layouts/types'
 import styles from '@/styles/Charts.module.css'
 
 interface KeyboardVisualizerProps {
-  layout: KeyData[][]
+  layout: KeyboardLayout
   data: Record<string, number>
 }
 

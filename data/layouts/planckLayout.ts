@@ -1,6 +1,6 @@
-import { KeyData } from '../keyboardLayout'
+import { KeyboardLayout } from '@/data/layouts/types'
 
-const planckLayout: KeyData[][] = [
+const planckLayout: KeyboardLayout = [
   // First row
   [
     { key: 'Esc', label: 'Esc', position: { row: 0, col: 0 } },
@@ -81,5 +81,6 @@ const planckLayout: KeyData[][] = [
     },
   ],
 ]
+
 export default planckLayout
 

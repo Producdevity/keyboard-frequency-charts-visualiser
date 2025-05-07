@@ -1,12 +1,15 @@
 import { KeystrokeData } from '@/types'
-import { KeyData } from '@/data/keyboardLayout'
+import { KeyboardLayout } from '@/data/layouts/types'
 
 interface KeyboardLayoutProps {
   keystrokeData: KeystrokeData[]
-  layout: KeyData[][]
+  layout: KeyboardLayout
 }
 
-const KeyboardLayout = ({ keystrokeData, layout }: KeyboardLayoutProps) => {
+const KeyboardLayoutVisualizer = ({
+  keystrokeData,
+  layout,
+}: KeyboardLayoutProps) => {
   const maxFrequency = Math.max(...keystrokeData.map((k) => k.frequency), 1)
 
   const getKeyFrequency = (key: string): number => {
