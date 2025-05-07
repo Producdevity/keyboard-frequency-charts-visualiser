@@ -7,6 +7,7 @@ A web application that helps you visualize your keyboard usage patterns and opti
 ## Features
 
 - Upload and analyze keystroke log files
+- Keylog file is processes completely locally
 - Visualize key usage frequency with bar and pie charts
 - Interactive keyboard layout visualization with color-coded key usage
 - Get suggestions for optimizing your keyboard layout
