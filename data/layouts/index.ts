@@ -7,6 +7,7 @@ export interface LayoutConfig {
   name: string
   description: string
   layout: KeyboardLayout
+  preview: string
 }
 
 export const layouts: LayoutConfig[] = [
@@ -15,11 +16,13 @@ export const layouts: LayoutConfig[] = [
     name: 'Planck',
     description: 'Ortholinear 40% keyboard layout',
     layout: planckLayout,
+    preview: '⌨️',
   },
   {
     id: 'preonic',
     name: 'Preonic',
     description: 'Ortholinear 50% keyboard layout',
     layout: preonicLayout,
+    preview: '⌨️',
   },
 ]
