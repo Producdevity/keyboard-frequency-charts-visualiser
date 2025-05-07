@@ -81,5 +81,5 @@ const planckLayout: KeyData[][] = [
     },
   ],
 ]
-
 export default planckLayout
+
