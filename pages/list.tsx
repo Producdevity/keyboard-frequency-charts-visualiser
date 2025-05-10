@@ -1,8 +1,8 @@
 import useKeystrokeData from '@/hooks/useKeystrokeData'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
+import Navbar from '@/components/layouts/Navbar'
+import Footer from '@/components/layouts/Footer'
 
 function Loader() {
   return (
