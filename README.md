@@ -60,7 +60,7 @@ npm run dev
 
 ## Data Format
 
-See `data/keystroke.log`
+See `<root>/__data__/keystroke.log`
 
 ## Contributing
 
