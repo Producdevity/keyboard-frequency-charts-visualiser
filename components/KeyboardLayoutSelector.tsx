@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { LayoutConfig } from '@/data/layouts';
+import type { LayoutConfig } from '@/data/layouts'
 import { layouts } from '@/data/layouts'
 
 interface LayoutSelectorProps {
@@ -7,7 +7,7 @@ interface LayoutSelectorProps {
   currentLayout: LayoutConfig
 }
 
-function LayoutSelector(props: LayoutSelectorProps) {
+function KeyboardLayoutSelector(props: LayoutSelectorProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -60,6 +60,6 @@ function LayoutSelector(props: LayoutSelectorProps) {
       )}
     </div>
   )
-} 
+}
 
-export default LayoutSelector
+export default KeyboardLayoutSelector

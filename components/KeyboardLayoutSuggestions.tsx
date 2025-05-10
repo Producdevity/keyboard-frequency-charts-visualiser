@@ -1,11 +1,11 @@
 import React from 'react'
 import type { KeystrokeData } from '@/types'
 
-interface LayoutSuggestionsProps {
+interface Props {
   data: KeystrokeData[]
 }
 
-function LayoutSuggestions(props: LayoutSuggestionsProps) {
+function KeyboardLayoutSuggestions(props: Props) {
   // Sort data by frequency in descending order
   const sortedData = [...props.data].sort((a, b) => b.frequency - a.frequency)
 
@@ -102,4 +102,4 @@ function LayoutSuggestions(props: LayoutSuggestionsProps) {
   )
 }
 
-export default LayoutSuggestions
+export default KeyboardLayoutSuggestions
