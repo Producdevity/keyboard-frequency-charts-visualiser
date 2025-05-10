@@ -1,4 +1,4 @@
-import { KeyboardLayout } from '@/data/layouts/types'
+import type { KeyboardLayout } from '@/data/layouts/types'
 import styles from '@/styles/Charts.module.css'
 
 interface KeyboardVisualizerProps {

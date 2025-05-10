@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
-import { KeystrokeData } from '@/types'
+import type { KeystrokeData } from '@/types'
 import { processKeystrokeFile } from '@/utils/processKeystrokeFile'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'

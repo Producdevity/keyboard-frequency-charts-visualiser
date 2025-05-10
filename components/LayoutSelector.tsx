@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { layouts, LayoutConfig } from '@/data/layouts'
+import type { LayoutConfig } from '@/data/layouts';
+import { layouts } from '@/data/layouts'
 
 interface LayoutSelectorProps {
   onLayoutChange: (layout: LayoutConfig) => void

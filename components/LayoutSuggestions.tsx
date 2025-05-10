@@ -1,5 +1,5 @@
 import React from 'react'
-import { KeystrokeData } from '@/types'
+import type { KeystrokeData } from '@/types'
 
 interface LayoutSuggestionsProps {
   data: KeystrokeData[]

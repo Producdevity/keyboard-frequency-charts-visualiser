@@ -5,7 +5,7 @@ import BarChart from '@/components/BarChart'
 import PieChart from '@/components/PieChart'
 import KeyboardLayoutVisualizer from '@/components/KeyboardLayoutVisualizer'
 import LayoutSuggestions from '@/components/LayoutSuggestions'
-import { KeystrokeData } from '@/types'
+import type { KeystrokeData } from '@/types'
 import { processKeystrokeFile } from '@/utils/processKeystrokeFile'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
@@ -13,7 +13,8 @@ import Footer from '@/components/Footer'
 // import { PieChart } from '@/components/charts/PieChart'
 import { useKeyFrequencyData } from '@/hooks/useKeyFrequencyData'
 import LayoutSelector from '@/components/LayoutSelector'
-import { layouts, LayoutConfig } from '@/data/layouts'
+import type { LayoutConfig } from '@/data/layouts';
+import { layouts } from '@/data/layouts'
 
 const Home: NextPage = () => {
   const [activeTab, setActiveTab] = useState<'bar' | 'pie' | 'keyboard'>('bar')

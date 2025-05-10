@@ -1,4 +1,4 @@
-import { KeyColorMap } from '@/types'
+import type { KeyColorMap } from '@/types'
 
 const keyColorMap: KeyColorMap = {
   '0': '#006400',

@@ -1,6 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
-import { KeystrokeData } from '@/types'
+import type { KeystrokeData } from '@/types'
 import Navbar from './Navbar'
 import Footer from './Footer'
 

@@ -9,7 +9,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts'
-import { KeystrokeData } from '@/types'
+import type { KeystrokeData } from '@/types'
 import generateGradient from '@/utils/generateGradient'
 
 interface BarChartProps {

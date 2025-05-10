@@ -1,5 +1,5 @@
-import { KeyboardLayout } from "@/data/layouts/types"
-import { KeystrokeData } from "@/types"
+import type { KeyboardLayout } from "@/data/layouts/types"
+import type { KeystrokeData } from "@/types"
 import { useMemo } from "react"
 import { KEY_WIDTH, KEY_SPACING, KEY_HEIGHT } from "./constants"
 import KeyboardBase from "./KeyboardBase"

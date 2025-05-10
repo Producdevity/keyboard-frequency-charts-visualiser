@@ -1,4 +1,4 @@
-import { KeyboardLayout } from '@/data/layouts/types'
+import type { KeyboardLayout } from '@/data/layouts/types'
 
 const planckLayout: KeyboardLayout = [
   // First row
@@ -83,4 +83,3 @@ const planckLayout: KeyboardLayout = [
 ]
 
 export default planckLayout
-

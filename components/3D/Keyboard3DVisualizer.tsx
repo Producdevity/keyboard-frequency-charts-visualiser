@@ -1,5 +1,5 @@
-import { KeyboardLayout } from "@/data/layouts/types"
-import { KeystrokeData } from "@/types"
+import type { KeyboardLayout } from "@/data/layouts/types"
+import type { KeystrokeData } from "@/types"
 import { Canvas } from "@react-three/fiber"
 import {
   OrbitControls,

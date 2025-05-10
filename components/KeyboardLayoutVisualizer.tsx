@@ -1,5 +1,5 @@
-import { KeystrokeData } from '@/types'
-import { KeyboardLayout } from '@/data/layouts/types'
+import type { KeystrokeData } from '@/types'
+import type { KeyboardLayout } from '@/data/layouts/types'
 
 interface KeyboardLayoutProps {
   keystrokeData: KeystrokeData[]

@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { KeystrokeData } from '@/types'
+import { useState, type ChangeEvent } from 'react'
+import type { KeystrokeData } from '@/types'
 import KeyboardLayoutVisualizer from '@/components/KeyboardLayoutVisualizer'
 import Keyboard3DVisualizer from '@/components/3D/Keyboard3DVisualizer'
 import LayoutSelector from '@/components/LayoutSelector'
@@ -13,7 +13,7 @@ export default function HeatmapPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (!file) return
 
@@ -30,7 +30,7 @@ export default function HeatmapPage() {
     }
   }
 
-  const handleLayoutChange = (layout: typeof layouts[0]) => {
+  const handleLayoutChange = (layout: (typeof layouts)[0]) => {
     setCurrentLayout(layout)
   }
 
@@ -45,7 +45,8 @@ export default function HeatmapPage() {
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-4">Keyboard Heatmap</h1>
           <p className="text-gray-600 dark:text-gray-300 mb-4">
-            Upload your keystroke log file to visualize your keyboard usage patterns.
+            Upload your keystroke log file to visualize your keyboard usage
+            patterns.
           </p>
           <input
             type="file"
@@ -81,7 +82,8 @@ export default function HeatmapPage() {
             <div>
               <h2 className="text-2xl font-bold mb-4">3D Visualization</h2>
               <p className="text-gray-600 dark:text-gray-300 mb-4">
-                Click and drag to rotate the keyboard. The height of each key represents its usage frequency.
+                Click and drag to rotate the keyboard. The height of each key
+                represents its usage frequency.
               </p>
               <Keyboard3DVisualizer
                 keystrokeData={keystrokeData}

@@ -1,4 +1,4 @@
-import { KeyboardLayout } from './types'
+import type { KeyboardLayout } from './types'
 
 const preonicLayout: KeyboardLayout = [
   // First row
