@@ -1,8 +1,8 @@
 import Head from 'next/head'
 import type { KeystrokeData } from '@/types'
 import { type PropsWithChildren } from 'react'
-import Navbar from './Navbar'
-import Footer from './Footer'
+import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
 
 interface ChartPageLayoutProps extends PropsWithChildren {
   title: string
@@ -12,24 +12,28 @@ interface ChartPageLayoutProps extends PropsWithChildren {
   error: string | null
 }
 
-function ChartPageLayout(props: ChartPageLayoutProps) {
-  if (props.isLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen bg-white dark:bg-gray-900">
-        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-primary"></div>
-      </div>
-    )
-  }
+function Loader() {
+  return (
+    <div className="flex justify-center items-center min-h-screen bg-white dark:bg-gray-900">
+      <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-primary" />
+    </div>
+  )
+}
 
-  if (props.error) {
-    return (
-      <div className="flex justify-center items-center min-h-screen bg-white dark:bg-gray-900">
-        <div className="p-4 bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-100 rounded-lg">
-          Error: {props.error}
-        </div>
+function ErrorMessage(props: { message: string }) {
+  return (
+    <div className="flex justify-center items-center min-h-screen bg-white dark:bg-gray-900">
+      <div className="p-4 bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-100 rounded-lg">
+        Error: {props.message}
       </div>
-    )
-  }
+    </div>
+  )
+}
+
+function ChartPageLayout(props: ChartPageLayoutProps) {
+  if (props.isLoading) return <Loader />
+
+  if (props.error) return <ErrorMessage message={props.error} />
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col">
