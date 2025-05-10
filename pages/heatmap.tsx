@@ -1,3 +1,4 @@
+import { type NextPage } from 'next'
 import { useState, type ChangeEvent } from 'react'
 import type { KeystrokeData } from '@/types'
 import KeyboardLayoutVisualizer from '@/components/KeyboardLayoutVisualizer'
@@ -7,7 +8,7 @@ import { layouts } from '@/data/layouts'
 import { processKeystrokeFile } from '@/utils/processKeystrokeFile'
 import ChartPageLayout from '@/components/ChartPageLayout'
 
-export default function HeatmapPage() {
+const Heatmap: NextPage = () => {
   const [keystrokeData, setKeystrokeData] = useState<KeystrokeData[]>([])
   const [currentLayout, setCurrentLayout] = useState(layouts[0])
   const [isLoading, setIsLoading] = useState(false)
@@ -96,3 +97,5 @@ export default function HeatmapPage() {
     </ChartPageLayout>
   )
 }
+
+export default Heatmap

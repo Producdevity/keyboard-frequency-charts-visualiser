@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import { KeystrokeData } from '@/types'
+import { type KeystrokeData } from '@/types'
 import { processKeystrokeFile } from '@/utils/processKeystrokeFile'
 
-export const useKeystrokeData = () => {
+function useKeystrokeData() {
   const [keystrokeData, setKeystrokeData] = useState<KeystrokeData[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -29,4 +29,6 @@ export const useKeystrokeData = () => {
   }, [])
 
   return { keystrokeData, isLoading, error }
-} 
+}
+
+export default useKeystrokeData

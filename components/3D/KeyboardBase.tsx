@@ -1,4 +1,5 @@
-import { BASE_HEIGHT } from "./constants"
+import * as THREE from 'three'
+import { BASE_HEIGHT } from './constants'
 
 function KeyboardBase() {
   const totalWidth = 14

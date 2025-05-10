@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import BarChart from '@/components/BarChart'
 import ChartPageLayout from '@/components/ChartPageLayout'
-import { useKeystrokeData } from '@/hooks/useKeystrokeData'
+import useKeystrokeData from '@/hooks/useKeystrokeData'
 
 const BarPage: NextPage = () => {
   const { keystrokeData, isLoading, error } = useKeystrokeData()

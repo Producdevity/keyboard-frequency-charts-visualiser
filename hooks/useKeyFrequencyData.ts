@@ -4,7 +4,7 @@ interface KeyFrequencyData {
   [key: string]: number
 }
 
-export function useKeyFrequencyData() {
+ function useKeyFrequencyData() {
   const [data, setData] = useState<KeyFrequencyData>({})
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
@@ -56,4 +56,6 @@ export function useKeyFrequencyData() {
   }, [])
 
   return { data, isLoading, error }
-} 
+}
+
+export default useKeyFrequencyData

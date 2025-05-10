@@ -5,7 +5,7 @@ import {
   Cell,
   Tooltip,
   Legend,
-  ResponsiveContainer
+  ResponsiveContainer,
 } from 'recharts'
 import type { KeystrokeData } from '@/types'
 
@@ -18,7 +18,7 @@ interface PieLabelProps {
   percent: number
 }
 
-const PieChart = (props: PieChartProps) => {
+function PieChart(props: PieChartProps) {
   const [isDarkMode, setIsDarkMode] = useState(false)
 
   useEffect(() => {
@@ -43,7 +43,7 @@ const PieChart = (props: PieChartProps) => {
     .map((item, index) => ({
       name: item.key,
       value: item.frequency,
-      fill: `hsl(${(index * 360) / 15}, 70%, 60%)`
+      fill: `hsl(${(index * 360) / 15}, 70%, 60%)`,
     }))
 
   const renderCustomizedLabel = ({ name, percent }: PieLabelProps) => {
@@ -75,7 +75,7 @@ const PieChart = (props: PieChartProps) => {
               backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.8)' : 'white',
               border: 'none',
               borderRadius: '4px',
-              color: isDarkMode ? '#fff' : '#666'
+              color: isDarkMode ? '#fff' : '#666',
             }}
           />
           <Legend
@@ -83,7 +83,7 @@ const PieChart = (props: PieChartProps) => {
             verticalAlign="middle"
             align="right"
             wrapperStyle={{
-              color: isDarkMode ? '#fff' : '#666'
+              color: isDarkMode ? '#fff' : '#666',
             }}
           />
         </RechartsPieChart>

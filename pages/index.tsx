@@ -11,9 +11,8 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 // import { BarChart } from '@/components/charts/BarChart'
 // import { PieChart } from '@/components/charts/PieChart'
-import { useKeyFrequencyData } from '@/hooks/useKeyFrequencyData'
 import LayoutSelector from '@/components/LayoutSelector'
-import type { LayoutConfig } from '@/data/layouts';
+import type { LayoutConfig } from '@/data/layouts'
 import { layouts } from '@/data/layouts'
 
 const Home: NextPage = () => {

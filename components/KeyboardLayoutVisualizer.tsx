@@ -11,14 +11,14 @@ interface ColorPair {
   text: string
 }
 
-const KeyboardLayoutVisualizer = ({
-  keystrokeData,
-  layout,
-}: KeyboardLayoutProps) => {
-  const maxFrequency = Math.max(...keystrokeData.map((k) => k.frequency), 1)
+function KeyboardLayoutVisualizer(props: KeyboardLayoutProps) {
+  const maxFrequency = Math.max(
+    ...props.keystrokeData.map((k) => k.frequency),
+    1,
+  )
 
   const getKeyFrequency = (key: string): number => {
-    const keyData = keystrokeData.find(
+    const keyData = props.keystrokeData.find(
       (k) => k.key.toLowerCase() === key.toLowerCase(),
     )
     return keyData?.frequency || 0
@@ -73,7 +73,7 @@ const KeyboardLayoutVisualizer = ({
   return (
     <div className="mt-8 w-full">
       <div className="flex flex-col gap-1 items-center">
-        {layout.map((row, rowIndex) => (
+        {props.layout.map((row, rowIndex) => (
           <div key={rowIndex} className="flex gap-1">
             {row.map((keyData) => {
               const frequency = getKeyFrequency(keyData.key)
