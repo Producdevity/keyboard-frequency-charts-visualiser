@@ -5,7 +5,7 @@ optimize your custom keyboard layout.
 
 ## Demo
 
-[Keyboard_frequency_visualizer Demo](https://keyboard-frequency-charts-visualiser.vercel.app)
+[Keyboard Frequency Visualizer Demo](https://keyboard-frequency-charts-visualiser.vercel.app)
 
 There is an example keystroke log file included in the repository.
 You can upload it to see how the visualizations work.
