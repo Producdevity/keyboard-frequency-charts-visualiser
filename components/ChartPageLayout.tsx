@@ -1,19 +1,18 @@
-import React from 'react'
 import Head from 'next/head'
 import type { KeystrokeData } from '@/types'
+import { type PropsWithChildren } from 'react'
 import Navbar from './Navbar'
 import Footer from './Footer'
 
-interface ChartPageLayoutProps {
+interface ChartPageLayoutProps extends PropsWithChildren {
   title: string
   description?: string
-  children: React.ReactNode
   keystrokeData: KeystrokeData[]
   isLoading: boolean
   error: string | null
 }
 
-const ChartPageLayout = (props: ChartPageLayoutProps) => {
+function ChartPageLayout(props: ChartPageLayoutProps) {
   if (props.isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen bg-white dark:bg-gray-900">
@@ -36,7 +35,9 @@ const ChartPageLayout = (props: ChartPageLayoutProps) => {
     <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col">
       <Head>
         <title>{props.title}</title>
-        {props.description && <meta name="description" content={props.description} />}
+        {props.description && (
+          <meta name="description" content={props.description} />
+        )}
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -46,9 +47,7 @@ const ChartPageLayout = (props: ChartPageLayoutProps) => {
         <h1 className="text-3xl font-bold mb-8 text-center text-gray-800 dark:text-white">
           {props.title}
         </h1>
-        <div className="w-full max-w-6xl mx-auto">
-          {props.children}
-        </div>
+        <div className="w-full max-w-6xl mx-auto">{props.children}</div>
       </main>
 
       <Footer />
@@ -56,4 +55,4 @@ const ChartPageLayout = (props: ChartPageLayoutProps) => {
   )
 }
 
-export default ChartPageLayout 
+export default ChartPageLayout

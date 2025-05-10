@@ -2,6 +2,12 @@
   "extends": "next/core-web-vitals",
   "plugins": ["@typescript-eslint"],
   "rules": {
-    "@typescript-eslint/consistent-type-imports": "error"
+    "@typescript-eslint/consistent-type-imports": [
+      "error",
+      {
+        "prefer": "type-imports",
+        "fixStyle": "inline-type-imports"
+      }
+    ]
   }
 }
