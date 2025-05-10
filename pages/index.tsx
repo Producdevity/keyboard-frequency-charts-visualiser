@@ -3,16 +3,16 @@ import Head from 'next/head'
 import { useState, type ChangeEvent } from 'react'
 import BarChart from '@/components/BarChart'
 import PieChart from '@/components/PieChart'
-import KeyboardLayoutVisualizer from '@/components/KeyboardLayoutVisualizer'
-import LayoutSuggestions from '@/components/LayoutSuggestions'
-import type { KeystrokeData } from '@/types'
+import KeyboardLayoutVisualizer  from '@/components/KeyboardLayoutVisualizer'
+import KeyboardLayoutSuggestions from '@/components/KeyboardLayoutSuggestions'
+import type { KeystrokeData }    from '@/types'
 import { processKeystrokeFile } from '@/utils/processKeystrokeFile'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 // import { BarChart } from '@/components/charts/BarChart'
 // import { PieChart } from '@/components/charts/PieChart'
-import LayoutSelector from '@/components/LayoutSelector'
-import type { LayoutConfig } from '@/data/layouts'
+import KeyboardLayoutSelector from '@/components/KeyboardLayoutSelector'
+import type { LayoutConfig }  from '@/data/layouts'
 import { layouts } from '@/data/layouts'
 
 const Home: NextPage = () => {
@@ -24,32 +24,29 @@ const Home: NextPage = () => {
 
   const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
-    if (file) {
-      setIsLoading(true)
-      setError(null)
+    if (!file) return
 
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        try {
-          const content = e.target?.result as string
-          const processedData = processKeystrokeFile(content)
-          setKeystrokeData(processedData)
-        } catch (err) {
-          setError(
-            'Error processing file. Please make sure it is a valid keystroke log file.',
-          )
-        } finally {
-          setIsLoading(false)
-        }
-      }
-
-      reader.onerror = () => {
-        setError('Error reading file')
+    setIsLoading(true)
+    setError(null)
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      try {
+        const content = e.target?.result as string
+        const processedData = processKeystrokeFile(content)
+        setKeystrokeData(processedData)
+      } catch (err) {
+        setError(
+          'Error processing file. Please make sure it is a valid keystroke log file.',
+        )
+      } finally {
         setIsLoading(false)
       }
-
-      reader.readAsText(file)
     }
+    reader.onerror = () => {
+      setError('Error reading file')
+      setIsLoading(false)
+    }
+    reader.readAsText(file)
   }
 
   return (
@@ -159,7 +156,7 @@ const Home: NextPage = () => {
                     <h1 className="text-3xl font-bold text-gray-900">
                       Keyboard Frequency Visualizer
                     </h1>
-                    <LayoutSelector
+                    <KeyboardLayoutSelector
                       currentLayout={currentLayout}
                       onLayoutChange={setCurrentLayout}
                     />
@@ -172,7 +169,7 @@ const Home: NextPage = () => {
               )}
             </div>
 
-            <LayoutSuggestions data={keystrokeData} />
+            <KeyboardLayoutSuggestions data={keystrokeData} />
           </>
         )}
 
