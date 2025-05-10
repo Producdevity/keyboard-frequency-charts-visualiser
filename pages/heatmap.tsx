@@ -1,15 +1,13 @@
 import { useState } from 'react'
-import { useRouter } from 'next/router'
 import { KeystrokeData } from '@/types'
 import KeyboardLayoutVisualizer from '@/components/KeyboardLayoutVisualizer'
-import Keyboard3DVisualizer from '@/components/Keyboard3DVisualizer'
+import Keyboard3DVisualizer from '@/components/3D/Keyboard3DVisualizer'
 import LayoutSelector from '@/components/LayoutSelector'
 import { layouts } from '@/data/layouts'
 import { processKeystrokeFile } from '@/utils/processKeystrokeFile'
 import ChartPageLayout from '@/components/ChartPageLayout'
 
 export default function HeatmapPage() {
-  const router = useRouter()
   const [keystrokeData, setKeystrokeData] = useState<KeystrokeData[]>([])
   const [currentLayout, setCurrentLayout] = useState(layouts[0])
   const [isLoading, setIsLoading] = useState(false)
@@ -37,7 +35,7 @@ export default function HeatmapPage() {
   }
 
   return (
-    <ChartPageLayout 
+    <ChartPageLayout
       title="Keyboard Heatmap"
       keystrokeData={keystrokeData}
       isLoading={isLoading}
