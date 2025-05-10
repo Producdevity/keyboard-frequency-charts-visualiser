@@ -3,10 +3,10 @@ import { useState, type ChangeEvent } from 'react'
 import type { KeystrokeData } from '@/types'
 import KeyboardLayoutVisualizer from '@/components/KeyboardLayoutVisualizer'
 import Keyboard3DVisualizer from '@/components/3D/Keyboard3DVisualizer'
-import LayoutSelector from '@/components/LayoutSelector'
+import KeyboardLayoutSelector from '@/components/KeyboardLayoutSelector'
+import ChartPageLayout from '@/components/layouts/ChartPageLayout'
 import { layouts } from '@/data/layouts'
 import { processKeystrokeFile } from '@/utils/processKeystrokeFile'
-import ChartPageLayout from '@/components/ChartPageLayout'
 
 const Heatmap: NextPage = () => {
   const [keystrokeData, setKeystrokeData] = useState<KeystrokeData[]>([])
@@ -29,10 +29,6 @@ const Heatmap: NextPage = () => {
     } finally {
       setIsLoading(false)
     }
-  }
-
-  const handleLayoutChange = (layout: (typeof layouts)[0]) => {
-    setCurrentLayout(layout)
   }
 
   return (
@@ -66,9 +62,9 @@ const Heatmap: NextPage = () => {
         {keystrokeData.length > 0 && (
           <>
             <div className="mb-8">
-              <LayoutSelector
+              <KeyboardLayoutSelector
                 currentLayout={currentLayout}
-                onLayoutChange={handleLayoutChange}
+                onLayoutChange={setCurrentLayout}
               />
             </div>
 
