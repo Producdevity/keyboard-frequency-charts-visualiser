@@ -2,11 +2,14 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { useEffect } from 'react'
 
-function MyApp({ Component, pageProps }: AppProps) {
+function App(props: AppProps) {
   useEffect(() => {
     // Check for system preference on initial load
     if (typeof window !== 'undefined') {
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      if (
+        window.matchMedia &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches
+      ) {
         document.documentElement.classList.add('dark')
       }
 
@@ -20,7 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   }, [])
 
-  return <Component {...pageProps} />
+  return <props.Component {...props.pageProps} />
 }
 
-export default MyApp
+export default App
