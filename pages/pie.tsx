@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import PieChart from '@/components/PieChart'
-import ChartPageLayout from '@/components/ChartPageLayout'
+import ChartPageLayout from '@/components/layouts/ChartPageLayout'
 import useKeystrokeData from '@/hooks/useKeystrokeData'
 
 const PiePage: NextPage = () => {
